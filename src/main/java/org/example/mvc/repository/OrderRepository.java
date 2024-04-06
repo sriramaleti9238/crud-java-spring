@@ -9,7 +9,7 @@ import java.util.List;
 public interface OrderRepository {
     List<Order> findAll();
 
-    Order save(Order entity);
+    Order save(Order orderData);
 
     Order findById(Long id);
 

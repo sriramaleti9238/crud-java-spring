@@ -1,0 +1,4 @@
+org\example\ApplicationTest.class
+org\example\mvc\repository\OrderRepositoryTests.class
+org\example\mvc\service\OrderServiceTest.class
+org\example\mvc\controller\OrderControllerIntegrationTests.class

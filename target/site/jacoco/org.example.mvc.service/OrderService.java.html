@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">test</a> &gt; <a href="index.source.html" class="el_package">org.example.mvc.service</a> &gt; <span class="el_source">OrderService.java</span></div><h1>OrderService.java</h1><pre class="source lang-java linenums">package org.example.mvc.service;
+
+
+import org.example.mvc.repository.entity.Order;
+import org.example.mvc.repository.impl.OrderRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class OrderService {
+
+    private final OrderRepositoryImpl repository;
+
+<span class="fc" id="L18">    public OrderService(OrderRepositoryImpl repository) {</span>
+<span class="fc" id="L19">        this.repository = repository;</span>
+<span class="fc" id="L20">    }</span>
+
+    public List&lt;Order&gt; findAll(){
+<span class="fc" id="L23">        List&lt;Order&gt; obj = repository.findAll();</span>
+<span class="fc" id="L24">        return obj;</span>
+    }
+
+    public Order insertOrder(Order order) {
+<span class="fc" id="L28">        Order entity = new Order();</span>
+<span class="fc" id="L29">        entity.setId(order.getId());</span>
+<span class="fc" id="L30">        entity.setPrice(order.getPrice());</span>
+<span class="fc" id="L31">        return repository.save(entity);</span>
+    }
+
+    public Order findById(Long id) {
+<span class="fc" id="L35">        Order order = repository.findById(id);</span>
+<span class="fc" id="L36">        return order;</span>
+    }
+
+    public Order update(Long id, Order order) {
+<span class="fc" id="L40">        Order obj = repository.findById(id);</span>
+        /** deleting the existing data because
+            the same data will be added in the list 2 times
+            after save method called **/
+<span class="fc" id="L44">        repository.delete(id);</span>
+<span class="fc" id="L45">        obj.setId(order.getId());</span>
+<span class="fc" id="L46">        obj.setPrice(order.getPrice());</span>
+<span class="fc" id="L47">        return repository.save(obj);</span>
+    }
+
+    public void delete(Long id) {
+<span class="fc" id="L51">        repository.delete(id);</span>
+<span class="fc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

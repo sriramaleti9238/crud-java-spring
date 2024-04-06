@@ -1,42 +1,24 @@
 package org.example;
 
-import org.example.dto.HelloDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ConfigurableApplicationContext;
+
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class ApplicationTest {
-
-    private static final String HELLO_ENDPOINT = "api/hello";
-
-    @Value(value = "${local.server.port}")
-    private int port;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
 
     @Test
     void contextLoads() {
     }
 
     @Test
-    void shouldRespondWithHelloMessage() {
-        HelloDTO helloDTO = restTemplate.getForObject(getHelloEndpointUrl(), HelloDTO.class);
-
-        assertThat(helloDTO.getMessage()).isEqualTo("Hello World!");
+    public void main() {
+        Application.main(new String[] {});
     }
 
-    private String getHelloEndpointUrl() {
-        return getLocalServerUrl() + HELLO_ENDPOINT;
-    }
-
-    private String getLocalServerUrl() {
-        return String.format("http://localhost:%d/", port);
-    }
 }

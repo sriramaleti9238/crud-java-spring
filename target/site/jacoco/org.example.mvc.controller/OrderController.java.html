@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">test</a> &gt; <a href="index.source.html" class="el_package">org.example.mvc.controller</a> &gt; <span class="el_source">OrderController.java</span></div><h1>OrderController.java</h1><pre class="source lang-java linenums">package org.example.mvc.controller;
+
+import org.example.mvc.repository.entity.Order;
+import org.example.mvc.service.OrderService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+//@RequestMapping(value = &quot;/order&quot;)  --&gt; wrong declaration of path
+@RequestMapping(&quot;/order&quot;)
+public class OrderController {
+    private final OrderService orderService;
+
+<span class="fc" id="L18">    private OrderController(final OrderService orderService) {</span>
+<span class="fc" id="L19">        this.orderService = orderService;</span>
+<span class="fc" id="L20">    }</span>
+
+    @GetMapping(&quot;/allorders&quot;)
+    public ResponseEntity&lt;?&gt; getAllOrder() {
+<span class="fc" id="L24">        Optional&lt;List&lt;Order&gt;&gt; obj = Optional.ofNullable(orderService.findAll());</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (obj.isPresent()){</span>
+<span class="fc" id="L26">            return ResponseEntity.ok(obj.get());</span>
+        }
+<span class="fc" id="L28">        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;list is empty&quot;);</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;?&gt; getOrder(@PathVariable Long id) {
+<span class="fc" id="L33">        Optional&lt;Order&gt; order = Optional.ofNullable(orderService.findById(id));</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (order.isPresent()){</span>
+<span class="fc" id="L35">            return ResponseEntity.ok(order.get());</span>
+        }
+<span class="fc" id="L37">        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;order with id &quot;+id+ &quot; not found&quot;);</span>
+    }
+
+    @PostMapping(&quot;/addData&quot;)
+    public ResponseEntity&lt;?&gt; insertOrder(@RequestBody Order order) {
+<span class="fc" id="L42">        Optional&lt;Order&gt; isOrderPresent = Optional.ofNullable(orderService.findById(order.getId()));</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if(isOrderPresent.isEmpty()){</span>
+<span class="fc" id="L44">            Order order2 = orderService.insertOrder(order);</span>
+<span class="fc" id="L45">            return ResponseEntity.ok(order2);</span>
+        }
+<span class="fc" id="L47">        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(&quot;Order with id &quot;+order.getId() + &quot; already exists&quot;);</span>
+    }
+
+
+//    @PutMapping(&quot;/{id}&quot;) -- wrong declaration
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;?&gt; updateOrder(@PathVariable Long id, @RequestBody Order order ) {
+<span class="fc" id="L54">        Optional&lt;Order&gt; isOrderPresent = Optional.ofNullable(orderService.findById(id));</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if(isOrderPresent.isPresent()){</span>
+<span class="fc" id="L56">            order = orderService.update(id, order);</span>
+<span class="fc" id="L57">            return ResponseEntity.status(HttpStatus.ACCEPTED).body(order);</span>
+        }
+<span class="fc" id="L59">        String errorMessage = &quot;order with ID &quot;+ id + &quot; not found&quot;;</span>
+<span class="fc" id="L60">        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;String&gt; deleteOrder(@PathVariable Long id) {
+<span class="fc" id="L65">        Optional&lt;Order&gt; isOrderPresent = Optional.ofNullable(orderService.findById(id));</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if(isOrderPresent.isPresent()){</span>
+<span class="fc" id="L67">            orderService.delete(id);</span>
+<span class="fc" id="L68">            return ResponseEntity.ok(&quot;Order deleted successfull &quot;+id);</span>
+        }
+
+<span class="fc" id="L71">        String errorMessage = &quot;order with ID &quot;+ id + &quot; not found&quot;;</span>
+<span class="fc" id="L72">        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

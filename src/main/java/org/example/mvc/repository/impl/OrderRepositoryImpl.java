@@ -9,25 +9,28 @@ import java.util.List;
 
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
-    List<Order> orderList = new ArrayList<Order>( List.of(
-            new Order(1561L, 5),
-            new Order(1431L, 6),
-            new Order(1565L, 8)
-    ));
+    List<Order> orderList = new ArrayList<Order>( );
+//    List.of(
+//            new Order(1561L, 5),
+//            new Order(1431L, 6),
+//            new Order(1565L, 8)
+//    ))
 
     public List<Order> findAll() {
         return orderList;
     }
 
     @Override
-    public Order save(Order entity) {
-        var index = orderList.indexOf(entity);
-        if (index > 0) {
-            orderList.set(orderList.indexOf(entity), entity);
-        } else {
-            orderList.add(entity);
-        }
-        return entity;
+    public Order save(Order orderData) {
+//        var index = orderList.indexOf(entity);
+//        if (index > 0) {
+//            orderList.set(orderList.indexOf(entity), entity);
+//        } else {
+//            orderList.add(entity);
+//        }
+
+        orderList.add(orderData);
+        return orderData;
     }
 
 
